@@ -11,7 +11,7 @@
 </form>
 
 <div>
-    <form method="post">
+    <form th:action="@{/main}" method="post">
         <input type="text" name="text" placeholder="Input your message"/>
         <input type="text" name="tag" placeholder="Tag">
         <button type="submit">Add message</button>
@@ -29,6 +29,7 @@
     <b th:text="${message.getId()}"></b>
     <span th:text="${message.getText()}"></span>
     <i th:text="${message.getTag()}"></i>
+    <strong th:text="${message.getAuthorName()}"></strong>
 </div>
 
 </body>

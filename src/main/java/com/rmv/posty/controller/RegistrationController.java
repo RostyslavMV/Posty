@@ -28,7 +28,7 @@ public class RegistrationController {
 
     @PostMapping("/registration")
     public String addUser(User user, Model model) {
-        User userFromDB = userRepo.findUsersByUsername(user.getUsername());
+        User userFromDB = userRepo.findUserByUsername(user.getUsername());
 
         if (userFromDB != null){
             model.addAttribute("message", "User exists!");

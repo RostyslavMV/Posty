@@ -2,8 +2,10 @@ package com.rmv.posty.controller;
 
 
 import com.rmv.posty.domain.Message;
+import com.rmv.posty.domain.User;
 import com.rmv.posty.repos.MessageRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,8 +35,10 @@ public class MainController {
     }
 
     @PostMapping("/main")
-    public String add(@RequestParam String text, @RequestParam String tag, Model model){
-        Message message = new Message(text, tag);
+    public String add(@AuthenticationPrincipal User user,
+                      @RequestParam String text,
+                      @RequestParam String tag, Model model) {
+        Message message = new Message(text, tag, user);
         messageRepo.save(message);
 
         Iterable<Message> messages = messageRepo.findAll();
@@ -44,12 +48,11 @@ public class MainController {
     }
 
     @PostMapping("filter")
-    public String filter(@RequestParam String filter, Model model){
+    public String filter(@RequestParam String filter, Model model) {
         Iterable<Message> messages;
-        if (filter != null && !filter.isEmpty()){
+        if (filter != null && !filter.isEmpty()) {
             messages = messageRepo.findMessageByTag(filter);
-        }
-        else {
+        } else {
             messages = messageRepo.findAll();
         }
 
