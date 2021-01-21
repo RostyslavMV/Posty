@@ -3,6 +3,7 @@ package com.rmv.posty.controller;
 import com.rmv.posty.domain.Role;
 import com.rmv.posty.domain.User;
 import com.rmv.posty.repos.UserRepo;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,14 +13,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import java.util.Collections;
 
 @Controller
+@AllArgsConstructor(onConstructor = @__(@Autowired))
 public class RegistrationController {
 
-    private UserRepo userRepo;
-
-    @Autowired
-    public RegistrationController(UserRepo userRepo) {
-        this.userRepo = userRepo;
-    }
+    private final UserRepo userRepo;
 
     @GetMapping("/registration")
     public String registration(){
@@ -31,7 +28,7 @@ public class RegistrationController {
         User userFromDB = userRepo.findUserByUsername(user.getUsername());
 
         if (userFromDB != null){
-            model.addAttribute("message", "User exists!");
+            model.addAttribute("message", "User already exists!");
             return "registration";
         }
 
